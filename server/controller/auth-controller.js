@@ -1,8 +1,18 @@
 import User from "../models/User.js";
+import bcrypt from "bcrypt";
+import jwt from "jsonwebtoken";
 
 export const register = async (req, res) => {
   try {
-    const { email, fullName, password } = req.body();
+    const { email, fullName, password } = req.body;
+
+    if (!email || !password || !fullName) {
+      return res.status(400).json({
+        status: "error",
+        message: "Provide all required fields",
+      });
+    }
+
     const existinguser = await User.findOne({ email: email });
 
     if (existinguser) {
@@ -11,7 +21,7 @@ export const register = async (req, res) => {
         message: "Email already registered",
       });
     } else {
-      const salt = await bcrypt.genSalt();
+    const salt = await bcrypt.genSalt(10);
       const hashPassword = await bcrypt.hash(password, salt);
 
       const newUser = new User({
@@ -22,18 +32,19 @@ export const register = async (req, res) => {
 
       await newUser.save();
       return res.status(201).json({
-        status: "error",
-        message: "User saved succcessfully",
+        status: "success",
+        message: "User saved successfully",
       });
     }
   } catch (err) {
+    console.log(err)
     res.status(500).json({ error: err.msg });
   }
 };
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body();
+    const { email, password } = req.body;
 
     if (!email || !password) {
       return res.status(400).json({
