@@ -5,8 +5,14 @@ import Link from 'next/link'
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import { toast } from 'react-toastify';
+import { useDispatch } from 'react-redux';
+import axios from '@/utils/axios';
+import { logIn } from '@/redux/slices/auth';
 
 const LoginForm = () => {
+    const dispatch = useDispatch();
+
     const LoginSchema = Yup.object().shape({
         email: Yup.string().required("Email is required").email("Email must be a valid email address"),
         password: Yup.string().required("Password is required"),
@@ -32,8 +38,28 @@ const LoginForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data)
-        } catch (error) {            
+
+            const response = await axios.post("/auth/login", {
+                ...data,
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+
+            toast.success(response.data.message, {
+                position: "top-center",
+            });
+
+            dispatch(logIn({
+                isLoggedIn: true,
+                token: response.data.token,
+                user_id: response.data.user_id
+            }))
+        } catch (error) {
+            toast.error(error.message, {
+                position: "top-center",
+            })
             reset();
             setError("afterSubmit", {
                 ...error,
