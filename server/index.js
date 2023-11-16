@@ -2,6 +2,8 @@ import express from "express";
 import dotenv from "dotenv";
 import bodyParser from "body-parser";
 import cors from "cors";
+import ConnectDB from "./database/db.js";
+
 
 dotenv.config();
 const app = express()
@@ -12,6 +14,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended:true}))
 
 const PORT = process.env.PORT || '8000'
+const MONGO_URL = process.env.MONGO_URL
 
 app.get('/', function (req, res) {
     res.send('Hello World')
@@ -20,3 +23,5 @@ app.get('/', function (req, res) {
 app.listen(PORT, () => {
     console.log(`Server listening at http://localhost:${PORT}`)
 })
+
+ConnectDB(MONGO_URL);
