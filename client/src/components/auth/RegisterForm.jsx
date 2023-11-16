@@ -5,19 +5,21 @@ import Link from 'next/link'
 import * as Yup from "yup";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
+import axios from '@/utils/axios';
 import { useRouter } from 'next/navigation';
+import { toast } from 'react-toastify';
 
-const RegisterForm = () => {   
-    
+const RegisterForm = () => {
+
     const SignUpSchema = Yup.object().shape({
         fullName: Yup.string().required('Full name is required'),
         email: Yup.string().email('Invalid email').required('Email is required'),
-        password: Yup.string().required('Password is required'),        
-        confirmPassword: Yup.string().required('Confirm Password is required'),        
+        password: Yup.string().required('Password is required'),
+        confirmPassword: Yup.string().required('Confirm Password is required'),
     });
 
     const defaultValues = {
-        fullName: "",        
+        fullName: "",
         email: "",
         password: "",
         confirmPassword: "",
@@ -40,10 +42,23 @@ const RegisterForm = () => {
 
     const onSubmit = async (data) => {
         try {
-            console.log(data)
+            const response = await axios.post("/auth/register", {
+                ...data,
+            }, {
+                headers: {
+                    "Content-Type": "application/json",
+                }
+            })
+
+            toast.success("Account Created!", {
+                position: "top-center",
+            });
 
             router.push("/auth/login")
-        } catch (error) {  
+        } catch (error) {
+            toast.error(error.message, {
+                position: "top-center",
+            })
             reset();
             setError("afterSubmit", {
                 ...error,
@@ -52,7 +67,7 @@ const RegisterForm = () => {
         }
     };
 
-    
+
 
     return (
         <form onSubmit={handleSubmit(onSubmit)}>
@@ -64,27 +79,27 @@ const RegisterForm = () => {
                     <input
                         type="text"
                         id="fullName"
-                        {...register("fullName")}                        
+                        {...register("fullName")}
                         className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
                         autoComplete="name"
                         placeholder='Enter your name'
-                    />      
-                    <p className='text-red-500'>{errors.fullName?.message}</p>             
+                    />
+                    <p className='text-red-500'>{errors.fullName?.message}</p>
                 </div>
-                
+
                 <div className='mt-4'>
                     <label htmlFor="email" className="block text-sm font-medium text-slate-300">
                         Email
                     </label>
                     <input
                         type="email"
-                        id="email"  
-                        {...register("email")}                      
+                        id="email"
+                        {...register("email")}
                         className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
                         autoComplete="email"
                         placeholder='Enter your email'
-                    />                
-                    <p className='text-red-500'>{errors.email?.message}</p>    
+                    />
+                    <p className='text-red-500'>{errors.email?.message}</p>
                 </div>
                 <div className='mt-4'>
                     <label htmlFor="password" className="block text-sm font-medium text-slate-300">
@@ -94,29 +109,29 @@ const RegisterForm = () => {
                         type="password"
                         id="password"
                         {...register("password")}
-                        placeholder='Enter your password'                        
+                        placeholder='Enter your password'
                         className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
                         autoComplete="off"
                     />
                     <p className='text-red-500'>{errors.password?.message}</p>
-                    
+
                 </div>
                 <div className='mt-4'>
                     <label htmlFor="confirm-password" className="block text-sm font-medium text-slate-300">
                         Confirm Password
                     </label>
                     <input
-                        type="text"
-                        id="confirm-password" 
-                        {...register("confirmPassword")}                       
+                        type="password"
+                        id="confirm-password"
+                        {...register("confirmPassword")}
                         className="w-full px-4 py-3 rounded-lg focus:outline-none focus:border-blue-500"
                         autoComplete="off"
                         placeholder='Confirm password'
                     />
                     <p className='text-red-500'>{errors.confirmPassword?.message}</p>
-                    
-                </div>                
-                
+
+                </div>
+
             </div>
             <p className="mx-auto mt-2 text-slate-300">
                 Already have an account?
