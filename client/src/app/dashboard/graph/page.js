@@ -16,10 +16,10 @@ const GraphPage = () => {
         }
     }, [isLoggedIn])
     return (
-        <div className='flex flex-col w-full bg-[#1c1412] p-5 h-[90%] text-white items-center'>
+        <div className='flex flex-col w-full bg-[#1c1412] p-5 h-[90%] text-white items-center justify-center'>
             <h2>Graph Heading</h2>
             <p>Graph description</p>
-            <div className='w-full flex h-[70%] mx-8 my-8'>
+            <div className='justify-center items-center  flex w-[80%] mx-8 my-8'>
                 <Graph />
             </div>
 
