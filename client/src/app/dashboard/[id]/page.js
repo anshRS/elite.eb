@@ -22,7 +22,7 @@ const Dashboard = () => {
   return (
     <div className='h-[90%] w-full bg-[#1c1412] p-5'>
       <div className='h-[100%] grid grid-cols-3 grid-rows-3 gap-4 text-white'>
-        <div className="col-span-2 row-span-2 bg-[#26282B] p-4 rounded-lg">          
+        <div className="col-span-2 row-span-2 flex items-center justify-center bg-[#26282B] p-4 rounded-lg">          
           <Graph />
         </div>
 
