@@ -49,12 +49,13 @@ const LoginForm = () => {
 
             toast.success(response.data.message, {
                 position: "top-center",
-            });
+            });            
 
             dispatch(logIn({
                 isLoggedIn: true,
                 token: response.data.token,
-                user_id: response.data.user_id
+                user_id: response.data.user_id,
+                email: data.email,
             }))
         } catch (error) {
             toast.error(error.message, {
