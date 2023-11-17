@@ -1,8 +1,8 @@
 'use client'
 
-import Graph from '@/components/auth/dashboard/Graph'
-import History from '@/components/auth/dashboard/History'
-import Trade from '@/components/auth/dashboard/Trade'
+import Graph from '@/components/dashboard/Graph'
+import History from '@/components/dashboard/History'
+import Trade from '@/components/dashboard/Trade'
 import { useRouter } from 'next/navigation'
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux'

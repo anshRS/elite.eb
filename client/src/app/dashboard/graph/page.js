@@ -1,6 +1,6 @@
 'use client'
 
-import Graph from '@/components/auth/dashboard/Graph'
+import Graph from '@/components/dashboard/Graph'
 import { useRouter } from 'next/navigation';
 import React, { useEffect } from 'react'
 import { useSelector } from 'react-redux';

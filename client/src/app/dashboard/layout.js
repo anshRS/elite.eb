@@ -1,5 +1,5 @@
-import Navbar from '@/components/auth/dashboard/Navbar'
-import Sidebar from '@/components/auth/dashboard/Sidebar'
+import Navbar from '@/components/dashboard/Navbar'
+import Sidebar from '@/components/dashboard/Sidebar'
 import React from 'react'
 
 export const metadata = {
